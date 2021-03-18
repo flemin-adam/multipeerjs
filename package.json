@@ -1,0 +1,29 @@
+{
+  "name": "multipeer",
+  "version": "0.0.1",
+  "description": "A javascript package implementing webrtc api\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D \u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[D\u001b[D",
+  "main": "build/multipeer.js",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flemin-adam/multipeerjs.git"
+  },
+  "keywords": [
+    "webrtc",
+    "multipeer",
+    "peer",
+    "javascript"
+  ],
+  "author": "Flemin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flemin-adam/multipeerjs/issues"
+  },
+  "homepage": "https://github.com/flemin-adam/multipeerjs#readme",
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  }
+}

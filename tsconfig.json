@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "outDir": "./build",
+      "allowJs": true,
+      "target": "es5",
+      "declaration": true,
+      "strict": true,
+      "module": "commonjs",
+    },
+    "include": ["./src/**/*"],
+    "exclude": ["node_modules", "**/__tests__/*"]
+  }
