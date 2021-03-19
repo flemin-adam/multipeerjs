@@ -1,7 +1,7 @@
 {
   "name": "multipeer",
   "version": "0.0.1",
-  "description": "A javascript package implementing webrtc api\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D \u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[D\u001b[D",
+  "description": "A javascript library that implemets the essential functionalities of WebRTC to make it easier to implement a multiple peer connections typically needed for a video conferencing application.",
   "main": "build/multipeer.js",
   "scripts": {
     "build": "tsc --build",
