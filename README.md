@@ -1,6 +1,6 @@
 # multipeerjs
 
-**Multipeer** is a javascript library that implemets the essential functionalities of WebRTC to make it easier to implement a multiple peer connections typically needed for a video conferencing application.
+**Multipeer** is a javascript library that implemets the essential functionalities of WebRTC to make it easier to implement a multiple peer connection typically needed for a video conferencing application.
 
 Getting Started:
 
@@ -15,7 +15,7 @@ let multiPeer = new Multipeer(rtcConfig, handleMultipeerCallback, mediaConstrain
 ```
 The constructor takes in 2 required and 1 optional parameter. The 1st parameter is the RTC Configuration object of the form [RTCConfiguration](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#rtcconfiguration_dictionary). 
 
-Second parameter is a callback function that will be called whenever an event occurs or after an action is called for e.g. if you create and offer by calling createOffer(), the library will take the necessary steps to create the offer and then call this function with RTCEvent as an argument passed to it. You can then take the necessary steps to pass the message using your Signal Channel. A typical callback function would be of the form - 
+Second parameter is a callback function that will be called whenever an event occurs or after an action is called for e.g. if you create an offer by calling createOffer(), the library will take the necessary steps to create the offer and then call this function with RTCEvent as an argument passed to it. You can then take the necessary steps to pass the message using your Signal Channel. A typical callback function would be of the form - 
 ```
 handleMultipeerCallback = response => {
       switch(response.event){

@@ -11,18 +11,25 @@ export interface RTCEvent {
     [key: string]: any,
 }
 
+interface Peer{
+    peer : RTCPeerConnection,
+    sender?: RTCRtpSender,
+}
+
+interface AllRTCPeerConnection{
+    [key: string]: Peer
+}
+
 export class Multipeer {
-    private _allPeerConnections: any = {};
+    private _allPeerConnections: AllRTCPeerConnection = {};
     private _rtcPeerConfig: RTCConfiguration;
     private _localStream: MediaStream = new MediaStream();
-    private _remoteStream: Array<MediaStream> = new Array<MediaStream>();
     private _signalFunction: Function;
     private _defaultMediaStreamConstraints: MediaStreamConstraints = {
         audio: true,
         video: true,
     };
 
-    // Parameters may be declared in a variety of syntactic forms
     /**
      * @param {RTCConfiguration} config - RTCConfiguration object with ICE Server config etc.
      * @param {Function} signalFunction - a callback function which will be called every time an RTC event occurs. An object of type RTCEvent is passed to this signal function. 
@@ -39,15 +46,21 @@ export class Multipeer {
         .then(localStream => this._localStream = localStream);
     }
 
+    get localStream() : MediaStream {
+        return this._localStream;
+    }
+
     createPeerConnection = (id: string) => {
         if(this._allPeerConnections[id] !== undefined){
             throw (new Error("Id is not unique"));
         }
-        this._allPeerConnections[id] = new RTCPeerConnection(this._rtcPeerConfig);
-        this._allPeerConnections[id].onicecandidate = (event: RTCPeerConnectionIceEvent) => this.handleICECandidateEvent(id, event);
-        this._allPeerConnections[id].ontrack = (event: RTCTrackEvent) => this.handleTrackEvent(id, event);
+        this._allPeerConnections[id] = {
+            peer: new RTCPeerConnection(this._rtcPeerConfig)
+        }
+        this._allPeerConnections[id].peer.onicecandidate = (event: RTCPeerConnectionIceEvent) => this.handleICECandidateEvent(id, event);
+        this._allPeerConnections[id].peer.ontrack = (event: RTCTrackEvent) => this.handleTrackEvent(id, event);
         this._localStream.getTracks().forEach(track => {
-            this._allPeerConnections[id].sender = this._allPeerConnections[id].addTrack(track, this._localStream);
+            this._allPeerConnections[id].sender = this._allPeerConnections[id].peer.addTrack(track, this._localStream);
         });
     }
 
@@ -72,33 +85,38 @@ export class Multipeer {
     }
 
     createNewOffer = (id: string) => {
-        this._allPeerConnections[id].createOffer()
-        .then((offer: RTCSessionDescription) => this._allPeerConnections[id].setLocalDescription(offer))
+        this._allPeerConnections[id].peer.createOffer()
+        .then((offer: RTCSessionDescriptionInit) => this._allPeerConnections[id].peer.setLocalDescription(offer))
         .then(() => {
             this._signalFunction({
                 id: id,
                 event: RTCEventType.VIDEO_OFFER,
-                sdp: this._allPeerConnections[id].localDescription
+                sdp: this._allPeerConnections[id].peer.localDescription
             });
         });
     }
 
     handleVideoOffer = (id: string, sdp: RTCSessionDescription) => {
         const sessionDescription = new RTCSessionDescription(sdp);
-        this._allPeerConnections[id].setRemoteDescription(sessionDescription)
-        .then(() => this._allPeerConnections[id].createAnswer())
-        .then((answer: RTCSessionDescription) => this._allPeerConnections[id].setLocalDescription(answer))
+        this._allPeerConnections[id].peer.setRemoteDescription(sessionDescription)
+        .then(() => this._allPeerConnections[id].peer.createAnswer())
+        .then((answer: RTCSessionDescriptionInit) => this._allPeerConnections[id].peer.setLocalDescription(answer))
         .then(() => {
             this._signalFunction({
                 id: id,
                 event: RTCEventType.VIDEO_ANSWER,
-                sdp: this._allPeerConnections[id].localDescription
+                sdp: this._allPeerConnections[id].peer.localDescription
             });
         });
     }
 
     handleVideoAnswer = (id: string, sdp: RTCSessionDescription) => {
         const sessionDescription = new RTCSessionDescription(sdp);
-        this._allPeerConnections[id].setRemoteDescription(sessionDescription);
+        this._allPeerConnections[id].peer.setRemoteDescription(sessionDescription);
+    }
+
+    handleRemoteICECandidate = (id: string, candidate: RTCIceCandidateInit) => {
+        const newCandidate = new RTCIceCandidate(candidate);
+        this._allPeerConnections[id].peer.addIceCandidate(newCandidate)
     }
 }
