@@ -1,6 +1,6 @@
 {
   "name": "multipeer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A javascript library that implemets the essential functionalities of WebRTC to make it easier to implement a multiple peer connections typically needed for a video conferencing application.",
   "main": "build/multipeer.js",
   "scripts": {
